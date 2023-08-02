@@ -1,0 +1,20 @@
+{
+  "name": "consumo-api-pix",
+  "version": "1.0.0",
+  "description": "Consumo API PIX GerenciaNet",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Chrigor",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "eslint": "^8.46.0",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}
