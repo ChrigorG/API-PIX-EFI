@@ -29,8 +29,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 
-app.get('/', (req, res) => {
-    axios({
+app.get('/', async(req, res) => {
+    const authResponse = await axios({
         method: 'POST',
         url: `${process.env.GN_ENDPOINT}/oauth/token`,
         headers: {
@@ -41,38 +41,38 @@ app.get('/', (req, res) => {
         data: {
             grant_type: 'client_credentials'
         }
-    }).then((result) => {
-        const accessToken = result.data?.access_token; // => ? optional chaining
-        const urlCharge = '/v2/cob';
+    });
+
+    const accessToken = authResponse.data?.access_token; // => ? optional chaining
+    const urlCharge = '/v2/cob';
+
+    const reqGN = axios.create({
+        baseURL: process.env.GN_ENDPOINT,
+        httpsAgent: agent,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const dataCob = {
+        calendario: {
+            expiracao: 3600
+        },
+        devedor: {
+            cpf: '12345678909',
+            nome: 'Francisco da Silva'
+        },
+        valor: {
+            original: '12.45'
+        },
+        chave: '068a706d-e46d-4aff-afbf-450c751ad5ee',
+        solicitacaoPagador: 'Cobrança dos serviços prestados.'
+    };
+
+    const cobResponse = await reqGN.post(urlCharge, dataCob);
     
-        const reqGN = axios.create({
-            baseURL: process.env.GN_ENDPOINT,
-            httpsAgent: agent,
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-    
-        const dataCob = {
-            calendario: {
-              expiracao: 3600
-            },
-            devedor: {
-              cpf: '12345678909',
-              nome: 'Francisco da Silva'
-            },
-            valor: {
-              original: '12.45'
-            },
-            chave: '068a706d-e46d-4aff-afbf-450c751ad5ee',
-            solicitacaoPagador: 'Cobrança dos serviços prestados.'
-        };
-    
-        reqGN.post(urlCharge, dataCob).then((result) => {
-            res.send(result.data);
-        });
-    });    
+    res.send(cobResponse.data);
 });
 
 
