@@ -45,6 +45,9 @@ app.get('/', async(req, res) => {
 
     const accessToken = authResponse.data?.access_token; // => ? optional chaining
     const urlCharge = '/v2/cob';
+    const urlQRCode = (idLoc) => {
+        return `/v2/loc/${idLoc}/qrcode`;
+    };
 
     const reqGN = axios.create({
         baseURL: process.env.GN_ENDPOINT,
@@ -71,8 +74,9 @@ app.get('/', async(req, res) => {
     };
 
     const cobResponse = await reqGN.post(urlCharge, dataCob);
-    
-    res.send(cobResponse.data);
+    const qrcodeResponse = await reqGN.get(urlQRCode(cobResponse.data.loc.id));
+
+    res.send(qrcodeResponse.data);
 });
 
 
