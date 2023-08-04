@@ -9,7 +9,10 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 
-const reqGNAlready = GNRequest.GNRequest();
+const reqGNAlready = GNRequest.GNRequest({
+    clientID: process.env.GN_CLIENT_ID,
+    clientSecret: process.env.GN_CLIENT_SECRET
+});
 
 app.get('/', async(req, res) => {
     const reqGN = await reqGNAlready;
@@ -36,7 +39,28 @@ app.get('/', async(req, res) => {
     const cobResponse = await reqGN.post(urlCharge, dataCob);
     const qrcodeResponse = await reqGN.get(urlQRCode(cobResponse.data.loc.id));
 
-    res.send(qrcodeResponse.data);
+    res.render('qrcode', {qrcodeImage: qrcodeResponse.data.imagemQrcode});
+});
+
+
+app.get('/cobrancas', async (req, res) => {
+    const reqGN = await reqGNAlready;
+    const start = '2023-07-26T16:01:35Z';
+    const end = '2023-08-03T22:10:00Z';
+    const urlListCob = `/v2/cob?inicio=${start}&fim=${end}`;
+
+    const cobResponse = await reqGN.get(urlListCob);
+    res.send(cobResponse.data);
+});
+
+app.get('/pix', async (req, res) => {
+    const reqGN = await reqGNAlready;
+    const start = '2023-07-26T16:01:35Z';
+    const end = '2023-08-03T22:10:00Z';
+    const urlListCob = `/v2/pix?inicio=${start}&fim=${end}`;
+
+    const cobResponse = await reqGN.get(urlListCob);
+    res.send(cobResponse.data);
 });
 
 
