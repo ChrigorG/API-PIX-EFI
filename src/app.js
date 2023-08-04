@@ -2,10 +2,14 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 const express = require('express');
+const bodyparser = require('body-parser');
 const GNRequest = require('./apis/afi');
 
 
 const app = express();
+
+app.use(bodyparser.json());
+
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 
@@ -61,6 +65,12 @@ app.get('/pix', async (req, res) => {
 
     const cobResponse = await reqGN.get(urlListCob);
     res.send(cobResponse.data);
+});
+
+// (/pix)? endpoint opcional solicitado pela API EFI
+app.post('/webhook(/pix)?', (req, res) => {
+    console.log(req.body); //Instalado o body-parser para receber respose extra servidor
+    res.send('200');
 });
 
 
