@@ -5,6 +5,7 @@
   Foi se utilizado alguns recursos básicos da API como: Autenticação com EFI, criação de cobrança imediata e o próprio gerador de PIX (QRCode), que por sua vez, faz interação do pagamento do **usuario** e o **Banco Central** de forma imediata. 
   
   Obs.: O pagamento via QRCode só funciona utilizando o certificado de **Produção**
+  
 ---
 
 ### Recursos Necessarios da API: 
