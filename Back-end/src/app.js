@@ -4,11 +4,13 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const bodyparser = require('body-parser');
 const GNRequest = require('./apis/afi');
+const cors = require('cors');
 
 
 const app = express();
 
 app.use(bodyparser.json());
+app.use(cors());
 
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
@@ -18,7 +20,10 @@ const reqGNAlready = GNRequest.GNRequest({
     clientSecret: process.env.GN_CLIENT_SECRET
 });
 
-app.get('/', async(req, res) => {
+app.get('/gerarcobranca', async(req, res) => {
+    const { name, cpf, value, description } = req.query;
+    const expiracao = 3600;
+
     const reqGN = await reqGNAlready;
     const urlCharge = '/v2/cob';
     const urlQRCode = (idLoc) => {
@@ -27,25 +32,35 @@ app.get('/', async(req, res) => {
 
     const dataCob = {
         calendario: {
-            expiracao: 3600
+            expiracao: expiracao
         },
         devedor: {
-            cpf: '12345678909',
-            nome: 'Francisco da Silva'
+            cpf: cpf, 
+            nome: name 
         },
         valor: {
-            original: '12.45'
+            original: value
         },
         chave: '068a706d-e46d-4aff-afbf-450c751ad5ee',
-        solicitacaoPagador: 'Cobrança dos serviços prestados.'
+        solicitacaoPagador: description
     };
+    try {
+        const cobResponse = await reqGN.post(urlCharge, dataCob);
+        const qrcodeResponse = await reqGN.get(urlQRCode(cobResponse.data.loc.id)); 
+        
+        res.status(200).send({
+            qrcode: 'qrcode',
+            value: value,
+            expirationTime: expiracao,  
+            qrcodeImage: qrcodeResponse.data.imagemQrcode});
+    } catch (error) {
+        console.log(error);
+        res.status(502).send({error: error});
+    } 
+    
 
-    const cobResponse = await reqGN.post(urlCharge, dataCob);
-    const qrcodeResponse = await reqGN.get(urlQRCode(cobResponse.data.loc.id));
-
-    res.render('qrcode', {qrcodeImage: qrcodeResponse.data.imagemQrcode});
+       
 });
-
 
 app.get('/cobrancas', async (req, res) => {
     const reqGN = await reqGNAlready;
