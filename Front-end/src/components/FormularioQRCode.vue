@@ -11,7 +11,6 @@
                     <p>Aguardando cobrança ...</p>
                 </div>
                 <div v-else class="pos-loading">
-                    <div hidden> {{ compt() }} </div>
                     <h2>R$ {{ this.dataCharge.data.value }}</h2>
                     <img :src="this.dataCharge.data.qrcodeImage" alt="">
                     <p> Espira em: {{ formatTime( countdown) }} </p>
@@ -25,7 +24,7 @@
 export default {
     data (){
         return {
-            countdown: null,
+            countdown: this.dataCharge.data.expirationTime,
             timer: null,
             value: null
         }
@@ -33,14 +32,18 @@ export default {
     props: {
         dataCharge: {}
     },
-    mounted() {
-        this.startCountdown();
+    watch: {
+        dataCharge(newTempo) {
+            this.countdown = newTempo.data.expirationTime;
+            this.startCountdown();
+        }
     },
     methods: {
-        compt () {
-            this.countdown = this.dataCharge.data.expirationTime;
-        },
         startCountdown() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+
             this.timer = setInterval(() => {
                 if (this.countdown > 0) {
                     this.countdown--;
@@ -52,7 +55,7 @@ export default {
         formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
-            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            return `00:${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
         },
     },
     beforeUnmount() {
