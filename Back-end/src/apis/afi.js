@@ -46,7 +46,6 @@ const GNRequest = async (credentials) => {
     });
 };
 
-
 module.exports = {
     GNRequest
 }

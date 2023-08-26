@@ -5,20 +5,26 @@
                 <h1>Dados da Cobrança</h1>
                 <hr>
             </div>
-            <form @submit.prevent="createCharge">
+            <form @submit.prevent="createcharge">
+                <label><b>Nome do cliente:</b></label>
                 <div class="block">
-                    <input type="text" v-model="name" placeholder="Nome do devedor">
+                    <input type="text" v-model="name" placeholder="Cliente" >
                 </div>
+                <label><b>CPF do cliente:</b></label>
                 <div class="block">
-                    <input type="text" v-model="cpf" placeholder="000.000.000-00">                 
+                    <input type="text" v-model="cpf" @input="formatcpf" maxlength="14" placeholder="000.000.000-00">                 
                 </div>
+                <label><b>Valor do serviço:</b></label>
                 <div class="block">
-                    <input type="text" v-model="value" placeholder="25,50">
+                    <input type="text" v-model="value" @input="formatCurrency(value)" maxlength="13" placeholder="R$ 25,50">
                 </div>
+                <label><b>Descrição do serviço:</b></label>
                 <div class="block">
-                    <input type="text" v-model="description" placeholder="Descrição do serviço">
+                    <input type="text" v-model="description" placeholder="Exemplo: Compra da roupa do homem-aranha">
                 </div>
-                <button type="submit">Gerar Cobrança</button>
+                <div id="block-button">
+                    <button type="submit">Gerar Cobrança</button>
+                </div>
             </form>
         </div>
     </div>
@@ -30,7 +36,7 @@ import axios from 'axios';
 export default {
     data () {
         return {
-            url: 'http://localhost:8000/gerarcobranca',
+            url: 'http://localhost:8000/cobranca',
             name: '',
             cpf: '',
             value: '',
@@ -38,20 +44,74 @@ export default {
         }
     },
     methods: {
-        createCharge: function (){
-            const params = {
-                name: this.name,
-                cpf: this.cpf,
-                value: this.value,
-                description: this.description
-            };
-     
-            axios.get(this.url, { params }).then(response => {
-                this.$emit('data-emitted', response);
-            }).catch((err) => {
-                console.log(err);
-                alert('Erro no servidor');
-            });
+        formatCurrency(value) { 
+            value = value.replace(/\D/ig, '');
+            value = value.replace(/([0-9]{2})$/g, ",$1");
+            
+            if (value.length > 6) {
+                value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+            }
+
+            this.value = 'R$ ' + value;
+            if (value == 'NaN'){
+                this.value = '';
+            }
+        },
+        formatcpf: function (){
+            const regex2 = /(\d{3})(\d{0,3})/ig;
+            const regex3 = /(\d{3})(\d{3})(\d{0,3})/ig;
+            const regex4 = /(\d{3})(\d{3})(\d{3})(\d{0,2})/ig;
+
+            let newCPF = this.processCPF(this.cpf);
+            this.cpf = newCPF;
+            if (newCPF.length == 3){
+                this.cpf = newCPF;
+            }else if (newCPF.length <= 6){
+                this.cpf = newCPF.replace(regex2, '$1.$2');
+            }else if (newCPF.length <= 9){
+                this.cpf = newCPF.replace(regex3, '$1.$2.$3');
+            }else if (newCPF.length <= 12){
+                this.cpf = newCPF.replace(regex4, '$1.$2.$3-$4');
+            }
+        },
+        processvalue: function (value){
+            value = value.replace(".", "");
+            value = value.replace(",", ".");
+            value = value.replace("R$", "");
+            value = value.replace(/\s*/g, "");
+            if (value.length == 3) {
+                value = `0${value}`;
+            }
+            return value;
+        },
+        processCPF: function (oldcpf){
+            let newcpf = oldcpf.replace(/\D/ig, "");
+            return newcpf;
+        },
+        createcharge: function (){
+            if (this.name == '' || this.cpf == '' || this.value == '' || this.description == ''){
+                alert('Todos os dados precisam ser preenchidos!!'); 
+            }else if (this.cpf.length != 14){
+                alert('CPF incorreto!!');
+            }else if (this.value == 0) {
+                alert('O valor não pode estar zerado!!'); 
+            }else {
+                const value = this.processvalue(this.value);
+                const cpf = this.processCPF(this.cpf);
+                const params = {
+                    name: this.name,
+                    cpf: cpf,
+                    value: value,
+                    description: this.description
+                };
+        
+                axios.get(this.url, { params }).then(response => {
+                    this.$emit('data-emitted', response);
+                }).catch((err) => {
+                    console.log(err);
+                    alert(`Erro no servidor, ${err}`);
+                });
+            }
         }
     }
 }
@@ -72,7 +132,7 @@ button{
 
 button:hover{
     background-color: rgb(122, 200, 248);
-    color: rgb(0, 99, 161);;
+    color: rgb(0, 99, 161);
 }
 
 input{
@@ -102,13 +162,15 @@ hr{
 }
 
 .cobranca{
-    width: 70%;
+    width: 80%;
     height: 100%;
-    text-align: center;
+    font-size: 13px;
+    font-family: 'Segoe UI', sans-serif;
+    color: rgb(40, 40, 40);
 }
 
 .title-charge{
-    height: 20%;
+    height: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,8 +180,6 @@ hr{
 .title-charge > h1{
     margin: 0;
     font-size: 25px;
-    font-family: 'Segoe UI', sans-serif;
-    color: rgb(40, 40, 40);
 }
 
 .block{
@@ -129,6 +189,12 @@ hr{
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    margin-top: 5px;
 }
+
+#block-button{
+    text-align: center;
+}
+
 
 </style>

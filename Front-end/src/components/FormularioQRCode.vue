@@ -6,15 +6,26 @@
                 <hr>
             </div>
             <div class="qr">
-                <div v-if="dataCharge.data.expirationTime == null" class="loading">
+                <div v-if="counttime == null" class="loading">
                     <img src="../assets/animate.svg" alt="animate">
                     <p>Aguardando cobrança ...</p>
                 </div>
                 <div v-else class="pos-loading">
-                    <div hidden> {{ compt() }} </div>
-                    <h2>R$ {{ this.dataCharge.data.value }}</h2>
-                    <img :src="this.dataCharge.data.qrcodeImage" alt="">
-                    <p> Espira em: {{ formatTime( countdown) }} </p>
+                    <div class="expiration-qrcode">
+                        <p><b> Espira em: </b></p>
+                        <p> {{ formatTime( this.counttime) }} </p>
+                    </div>
+                    <div class="image-qrcode">
+                        <img :src="this.qrCode" alt="">
+                    </div>
+                    <div class="value-qrcode">
+                        <h2>{{ this.value }}</h2>
+                    </div>
+                    <hr>
+                    <div class="copyandpaste-qrcode">
+                        <p>Código Pix (Copia e Cola)</p>
+                        <p>{{ this.copyAndPaste }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,37 +33,51 @@
 </template>
 
 <script>
+
 export default {
     data (){
         return {
-            countdown: null,
+            counttime: this.dataCharge.data.expirationTime,
+            copyAndPaste: null,
+            qrCode: null,
             timer: null,
-            value: null
+            value: 0
         }
     },
     props: {
         dataCharge: {}
     },
-    mounted() {
-        this.startCountdown();
+    watch: {
+        dataCharge(newTempo) {
+            this.copyAndPaste = this.dataCharge.data.copyAndPaste;
+            this.qrCode = this.dataCharge.data.qrcodeImage;
+            this.value = this.dataCharge.data.value;
+            this.counttime = newTempo.data.expirationTime;
+            this.formatValue();
+            this.startCountTime();
+        }
     },
     methods: {
-        compt () {
-            this.countdown = this.dataCharge.data.expirationTime;
-        },
-        startCountdown() {
+        startCountTime() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+
             this.timer = setInterval(() => {
-                if (this.countdown > 0) {
-                    this.countdown--;
+                if (this.counttime > 0) {
+                    this.counttime--;
                 } else {
                     clearInterval(this.timer);
                 }
             }, 1000); // Atualiza a cada segundo (1000ms)
         },
+        formatValue(){
+            this.value = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(this.value);
+        },
         formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
-            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            return `00:${minutes}:${remainingSeconds < 10 ?  '0' : ''}${remainingSeconds}`;
         },
     },
     beforeUnmount() {
@@ -65,10 +90,6 @@ export default {
 
 <style>
 
-hr{
-    width: 100%;
-}
-
 .main-qrcode{
     margin: 0%;
     width: 50%;
@@ -78,15 +99,14 @@ hr{
     justify-content: center;
 }
 
-
 .qrcode{
-    width: 70%;
+    width: 80%;
     height: 100%;
     text-align: center;
 }
 
 .qrtitle {
-    height: 20%;
+    height: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,8 +134,29 @@ hr{
 }
 
 .pos-loading{
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
+.expiration-qrcode{
+    background-color: rgb(45, 48, 50);
+    color: white;
+    width: 40%;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.expiration-qrcode > p{
+    margin: 0;
+    padding: 5px;
+}
+
+.copyandpaste-qrcode{
+    width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+}
 
 </style>
