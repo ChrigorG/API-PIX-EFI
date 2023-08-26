@@ -1,8 +1,8 @@
 <template>
     <div class="main">
         <div class="formulario">
-            <FormularioCobranca @data-emitted="handleDataFromChild"/>
-            <FormularioQRCodeVue :dataCharge="dataCharge"/>
+            <FormularioCobranca @data-emitted="handleDataFromChild" class="formChange"/>
+            <FormularioQRCodeVue :dataCharge="dataCharge" class="formQrcode"/>
         </div>  
         <p id="cretead">By 
             <a href="https://www.linkedin.com/in/chrigor-gazal/" target="_blank" rel="noopener noreferrer">Chrigor</a>
@@ -19,7 +19,7 @@ export default {
         return {
             dataCharge: {
                 data: {
-                    qrcode: null,
+                    copyAndPaste: null,
                     value: null,
                     expirationTime: null,  
                     qrcodeImage: null
@@ -41,8 +41,8 @@ export default {
 
 <style>
 
-a {
-   color: inherit;
+a{
+    color: inherit;
 }
 
 #cretead{
@@ -67,30 +67,50 @@ a {
     background-color: white;
     margin-top: 20px;
     width: 80%;
-    height: 80%;
+    height: 85%;
     border-radius: 10px;
     box-shadow: 10px 10px 10px rgb(15, 15, 15);
 }
 
-@media (max-width: 600px ) {
+@media (max-width: 700px ) {
 
     .main{
-        height: 120vh;
+        height: 150vh;
     }
 
     .formulario{
-        height: 110vh;
+        height: 140vh;
         display: block;
     }
 
-    .main-cobranca, .main-qrcode{
+    .formChange{
         width: 100%;
-        height: 50%;
+        height: 40%;
+    }
+
+    .formQrcode{
+        width: 100%;
+        height: 40%;
     }
 
     .pos-loading > img{
         width: 70%;
         height: 70%;
+    }
+
+    .expiration-qrcode{
+        width: 50%;
+    }
+}
+
+@media (max-width: 600px ) and (max-height: 800px) {
+
+    .main{
+        height: 180vh;
+    }
+
+    .formulario{
+        height: 170vh;
     }
 }
 

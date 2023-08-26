@@ -6,19 +6,25 @@
                 <hr>
             </div>
             <form @submit.prevent="createcharge">
+                <label><b>Nome do cliente:</b></label>
                 <div class="block">
-                    <input type="text" v-model="name" placeholder="Nome do devedor">
+                    <input type="text" v-model="name" placeholder="Cliente" >
                 </div>
+                <label><b>CPF do cliente:</b></label>
                 <div class="block">
                     <input type="text" v-model="cpf" @input="formatcpf" maxlength="14" placeholder="000.000.000-00">                 
                 </div>
+                <label><b>Valor do serviço:</b></label>
                 <div class="block">
-                    <input type="text" v-model="value" @input="formatCurrency(value)" maxlength="13" placeholder="25,50">
+                    <input type="text" v-model="value" @input="formatCurrency(value)" maxlength="13" placeholder="R$ 25,50">
                 </div>
+                <label><b>Descrição do serviço:</b></label>
                 <div class="block">
-                    <input type="text" v-model="description" placeholder="Descrição do serviço">
+                    <input type="text" v-model="description" placeholder="Exemplo: Compra da roupa do homem-aranha">
                 </div>
-                <button type="submit">Gerar Cobrança</button>
+                <div id="block-button">
+                    <button type="submit">Gerar Cobrança</button>
+                </div>
             </form>
         </div>
     </div>
@@ -91,7 +97,6 @@ export default {
                 alert('O valor não pode estar zerado!!'); 
             }else {
                 const value = this.processvalue(this.value);
-                console.log(value);
                 const cpf = this.processCPF(this.cpf);
                 const params = {
                     name: this.name,
@@ -104,7 +109,7 @@ export default {
                     this.$emit('data-emitted', response);
                 }).catch((err) => {
                     console.log(err);
-                    alert('Erro no servidor');
+                    alert(`Erro no servidor, ${err}`);
                 });
             }
         }
@@ -157,13 +162,15 @@ hr{
 }
 
 .cobranca{
-    width: 70%;
+    width: 80%;
     height: 100%;
-    text-align: center;
+    font-size: 13px;
+    font-family: 'Segoe UI', sans-serif;
+    color: rgb(40, 40, 40);
 }
 
 .title-charge{
-    height: 20%;
+    height: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -173,8 +180,6 @@ hr{
 .title-charge > h1{
     margin: 0;
     font-size: 25px;
-    font-family: 'Segoe UI', sans-serif;
-    color: rgb(40, 40, 40);
 }
 
 .block{
@@ -184,6 +189,12 @@ hr{
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    margin-top: 5px;
 }
+
+#block-button{
+    text-align: center;
+}
+
 
 </style>

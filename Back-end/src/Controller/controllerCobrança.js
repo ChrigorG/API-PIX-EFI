@@ -1,5 +1,5 @@
 const GNRequest = require('../apis/afi');
-const expiracao = 1800;
+const expiration = 1800;
 const reqGNAlready = GNRequest.GNRequest({
     clientID: process.env.GN_CLIENT_ID,
     clientSecret: process.env.GN_CLIENT_SECRET
@@ -9,7 +9,7 @@ const reqGNAlready = GNRequest.GNRequest({
 function dataChange (name, cpf, value, description){
     return {
         calendario: {
-            expiracao: expiracao
+            expiracao: expiration
         },
         devedor: {
             cpf: cpf, 
@@ -37,10 +37,12 @@ const createChange = async (req, res) => {
         const cobResponse = await reqGN.post(urlCharge, dataCob);
         const qrcodeResponse = await reqGN.get(urlQRCode(cobResponse.data.loc.id)); 
         
+        console.log(qrcodeResponse.data);
+
         res.status(200).send({
-            qrcode: 'qrcode',
+            copyAndPaste: qrcodeResponse.data.qrcode,
             value: value,
-            expirationTime: expiracao,  
+            expirationTime: expiration,  
             qrcodeImage: qrcodeResponse.data.imagemQrcode
         });
 
