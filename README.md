@@ -5,6 +5,10 @@
   Foi utilizado alguns recursos básicos da API como: Autenticação com EFI, criação de cobrança imediata e o próprio gerador de PIX (QRCode), que por sua vez, faz interação do pagamento do **usuario** e o **Banco Central** de forma imediata. 
   
   Obs.: O pagamento via QRCode só funciona utilizando o certificado de **Produção**, sendo assim, o certificado de Homologação serve para relizar os testes relacionados ao desenvolvimento. Para uso, configure as variáveis de ambiente (Client_ID, Client_Secret, Endpoint, certificado_utual, modo_atual(produção ou homolagação));
+
+![tela2](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/6d4c272b-88f3-44b0-8e7d-767e5c7f705f)
+
+![Tela](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/ff99d665-7acd-41dc-b650-0b852d2b6e77)
   
 ---
 
