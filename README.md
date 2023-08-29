@@ -1,4 +1,4 @@
-# **API PIX EFI Bank (GerenciaNet)**
+# **API PIX - EFI Bank (GerenciaNet)**
 
 ### Descrição:
   Este é um projeto que faz o uso e o consumo da **API EFI Bank**, antiga GerenciaNet. Um projeto voltado para **P&D (Pesquisa e desenvolvimento)**.
