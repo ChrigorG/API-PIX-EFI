@@ -21,12 +21,13 @@
 
 ### Dependencias Utilizadas:
 1. Node.JS
-2. Express.JS
-3. EJS
-4. Axios
-5. Body-Parser
-6. ESLint
-7. DotEnv
+2. Vue.JS
+3. Express.JS
+4. EJS
+5. Axios
+6. Body-Parser
+7. ESLint
+8. DotEnv
 
 ---
 
