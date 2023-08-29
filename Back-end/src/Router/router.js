@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../Controller/controllerCobrança');
+const middleware = require('../Middlewares/middleware');
 
-router.get('/cobranca', controller.createChange);
+router.get('/cobranca', middleware.authenticateData, controller.createChange);
 
 router.get('/cobrancas', controller.getChanges);
 

@@ -108,8 +108,8 @@ export default {
                 axios.get(this.url, { params }).then(response => {
                     this.$emit('data-emitted', response);
                 }).catch((err) => {
-                    console.log(err);
-                    alert(`Erro no servidor, ${err}`);
+                    console.log(err.response.data.error);
+                    alert(`Erro no servidor, ${err.response.data.error}`);
                 });
             }
         }
