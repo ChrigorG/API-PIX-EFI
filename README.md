@@ -33,13 +33,14 @@
 ### Modo de uso: 
 
 1. Faça um clone do projeto
-2. Abra duas guias da sua IDE favorita, abra a Pasta Front-End na outra Guia abra o Back-End
+2. Abra duas guias da sua IDE favorita, uma na pasta Front-End na outra no o Back-End
 3. Crie um pasta dentro de: **/Back-End/** chamado **certs**
 4. Dentro do projeto Back-End, no terminal, execute o camando **npm install** para instalar as dependências
 5. Acesse o site da EFI BANK e faça o download dos certificados e cole na pasta criada **certs**.
 6. Crie um arquivo na pasta Raiz **/Back-End** chamado **.env** Configure a as variaveis de ambiente (GN_CLIENT_ID, GN_CLIENT_SECRET, GN_ENDPOINT, NODE_ENV, GN_CERT.
 7. Os dados como GN_CLIENT_ID, GN_CLIENT_SECRET você encontra no site da EFI
 8. Seu GN_ENDPOINT aponta para o dominio da EFI "https://api-pix-h.gerencianet.com.br", NODE_ENV (produção ou homolagação) e GN_CERT aponta para seu certificado ao qual deseja utilizar.
+9. Inicialize o Front-End com o comando: **vue run serve** e o projeto Back-End com o comando: **nodemon app.js** ou **node app.js**
 
 ---
 
