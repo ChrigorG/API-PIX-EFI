@@ -4,12 +4,12 @@
   Este é um projeto que faz o uso e o consumo da **API EFI Bank**, antiga GerenciaNet. Um projeto voltado para **estudos e práticas de programação**.
   Foi utilizado alguns recursos básicos da API como: Autenticação com EFI, criação de cobrança imediata e o próprio gerador de PIX (QRCode), que por sua vez, faz interação/ponte do pagamento do **usuario** e o **Banco Central** de forma imediata. 
   
-  Obs.: O pagamento via QRCode só funciona utilizando o certificado de **Produção**, sendo assim, o certificado de Homologação serve para relizar os testes relacionados ao desenvolvimento. Para uso, configure as variáveis de ambiente (Client_ID, Client_Secret, Endpoint, certificado_utual, modo_atual(produção ou homolagação));
+  Obs.: O pagamento via QRCode só funciona utilizando o certificado de **Produção**, sendo assim, o certificado de Homologação serve para relizar os testes relacionados ao desenvolvimento. Para uso, configure as variáveis de ambiente (Client_ID, Client_Secret, Endpoint, certificado_utual, modo_atual);
 
 ![tela2](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/6d4c272b-88f3-44b0-8e7d-767e5c7f705f)
 
 ![Tela](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/ff99d665-7acd-41dc-b650-0b852d2b6e77)
-  
+
 ---
 
 ### Recursos Necessarios da API: 
@@ -28,6 +28,18 @@
 6. Body-Parser
 7. ESLint
 8. DotEnv
+
+---
+### Modo de uso: 
+
+1. Faça um clone do projeto
+2. Abra duas guias da sua IDE favorita, abra a Pasta Front-End na outra Guia abra o Back-End
+3. Crie um pasta dentro de: **/Back-End/** chamado **certs**
+4. Dentro do projeto Back-End, no terminal, execute o camando **npm install** para instalar as dependências
+5. Acesse o site da EFI BANK e faça o download dos certificados e cole na pasta criada **certs**.
+6. Crie um arquivo na pasta Raiz **/Back-End** chamado **.env** Configure a as variaveis de ambiente (GN_CLIENT_ID, GN_CLIENT_SECRET, GN_ENDPOINT, NODE_ENV, GN_CERT.
+7. Os dados como GN_CLIENT_ID, GN_CLIENT_SECRET você encontra no site da EFI
+8. Seu GN_ENDPOINT aponta para o dominio da EFI "https://api-pix-h.gerencianet.com.br", NODE_ENV (produção ou homolagação) e GN_CERT aponta para seu certificado ao qual deseja utilizar.
 
 ---
 
