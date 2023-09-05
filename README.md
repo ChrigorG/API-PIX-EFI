@@ -10,6 +10,7 @@
 
 
 
+![tela-pix-pagamento](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/3db99a00-de89-4cc5-9059-a5b895e13a4d)
 
 
 ---
