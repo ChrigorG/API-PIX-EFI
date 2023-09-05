@@ -122,16 +122,16 @@ export default {
 button{
     background-color: rgb(196, 229, 249); 
     color: rgb(0, 57, 92);
+    border: none;
     width: 150px;
     height: 40px;
     border-radius: 20px;
     margin-top: 30px;
-    border: none;
     cursor: pointer;
 }
 
 button:hover{
-    background-color: rgb(122, 200, 248);
+    background-color: rgb(174, 221, 250);
     color: rgb(0, 99, 161);
 }
 
