@@ -6,9 +6,11 @@
   
   Obs.: O pagamento via QRCode só funciona utilizando o certificado de **Produção**, sendo assim, o certificado de Homologação serve para relizar os testes relacionados ao desenvolvimento. Para uso, configure as variáveis de ambiente (ID_cliente, cliente-secreto, Endpoint, certificado_atual, modo_atual);
 
-![tela2](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/6d4c272b-88f3-44b0-8e7d-767e5c7f705f)
+![tela-pix](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/db077087-f2a5-460b-b7cd-f95263372e8a)
 
-![Tela](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/ff99d665-7acd-41dc-b650-0b852d2b6e77)
+
+![tela-pix-pagamento](https://github.com/ChrigorG/API-PIX-EFI/assets/99369312/56e7a1db-ed6c-477f-b46c-0ef2b5e21993)
+
 
 ---
 
