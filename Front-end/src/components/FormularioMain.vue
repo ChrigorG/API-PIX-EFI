@@ -55,7 +55,12 @@ a{
 }
 
 .main{
-    background-color: rgb(45, 48, 50);
+    background-color: #815ab7;
+    background-image:
+        radial-gradient(ellipse at 10% 90%, #3c2d83 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 90%, #c33c65 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 10%, #4a74dc 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 10%, #35244f 0%, transparent 55%);
     width: 100vw;
     height: 100vh;
     justify-content: center;
@@ -69,7 +74,7 @@ a{
     width: 80%;
     height: 85%;
     border-radius: 10px;
-    box-shadow: 10px 10px 10px rgb(15, 15, 15);
+    box-shadow: 10px 10px 20px rgb(15, 15, 15);
 }
 
 @media (max-width: 700px ) {
