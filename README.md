@@ -1,7 +1,7 @@
 # **API PIX - EFI Bank (GerenciaNet)**
 
 ### Descrição:
-  Este é um projeto que faz o uso e o consumo da **API EFI Bank**, antiga GerenciaNet. Um projeto voltado para **estudos e práticas de programação** além do enriquecimento de conhecimento sobre a API da EFI Bank.
+  Este é um projeto que faz o uso e o consumo da **API EFI Bank**, antiga GerenciaNet. Um projeto voltado para **estudos e práticas de programação** além do conhecimento sobre a API da EFI Bank.
   Foi utilizado alguns recursos básicos da API como: Autenticação com EFI, criação de cobrança imediata e o próprio gerador de PIX (QRCode), que por sua vez, faz interação/ponte do pagamento do **usuario** e o **Banco Central** de forma imediata. 
   
   Obs.: O pagamento via QRCode só funciona utilizando o certificado de **Produção**, sendo assim, o certificado de Homologação serve para relizar os testes relacionados ao desenvolvimento. Para uso, configure as variáveis de ambiente (ID_cliente, cliente-secreto, Endpoint, certificado_atual, modo_atual);
